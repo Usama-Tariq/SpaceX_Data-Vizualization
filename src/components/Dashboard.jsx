@@ -49,14 +49,12 @@ function Dashboard() {
                 <div>
                   <LineChart
                     launchSite={launchSite}
-                    // launchSite={launchSite === '' ? [...siteNames][0] : launchSite}
                     chartType={"line"}
                   />
                 </div>
                 <div>
                   <BarChart
                     launchSite={launchSite}
-                    // launchSite={launchSite === '' ? [...siteNames][0] : launchSite}
                     chartType={"bar"}
                   />
                 </div>
@@ -65,7 +63,6 @@ function Dashboard() {
                 <div>
                   <PieChart
                     launchSite={launchSite}
-                  // launchSite={launchSite === '' ? [...siteNames][0] : launchSite}
                   />
                 </div>
               </div>
