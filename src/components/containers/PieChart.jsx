@@ -1,13 +1,16 @@
 import React from 'react';
 import { useQuery } from "@apollo/client";
 import _ from 'lodash';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import ApexChart from '../common/ApexChart';
 import { ROCKET_TYPE_QUERY } from '../../utils/GraphQlQueries';
 import { getLaunchStatusesByRocketType } from '../../utils/common';
 
 function PieChart({ launchSite }) {
-  const { data, loading, error } = useQuery(ROCKET_TYPE_QUERY(launchSite));
+  const { data, loading, error } = useQuery(ROCKET_TYPE_QUERY, {
+    variables: { launchSite }
+  });
 
   const filteredLaunches = data?.launches
     .map(({ launch_success, rocket }) => ({
@@ -34,7 +37,7 @@ function PieChart({ launchSite }) {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
+      {loading && <CircularProgress color="inherit" />}
       {error && <pre>{error?.message}</pre>}
       {!loading && !error &&
         <>

@@ -1,13 +1,16 @@
 import React from 'react'
 import { useQuery } from "@apollo/client";
 import _ from 'lodash';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import ApexChart from '../common/ApexChart';
-import { SITE_NAME_QUERY } from '../../utils/GraphQlQueries';
+import { LAUNCH_SITE_QUERY } from '../../utils/GraphQlQueries';
 import getLaunchStatusesPerYear from '../../utils/common';
 
 function BarChart({ launchSite }) {
-  const { data, loading, error } = useQuery(SITE_NAME_QUERY(launchSite));
+  const { data, loading, error } = useQuery(LAUNCH_SITE_QUERY, {
+    variables: { launchSite }
+  });
 
   const groupedByYear = _.chain(data?.launches)
     .groupBy("launch_year")
@@ -41,7 +44,7 @@ function BarChart({ launchSite }) {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
+      {loading && <CircularProgress color="inherit" />}
       {error && <pre>{error?.message}</pre>}
       {!loading && !error &&
         <>

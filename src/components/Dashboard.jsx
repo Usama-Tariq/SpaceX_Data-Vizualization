@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from "@apollo/client";
+import CircularProgress from '@mui/material/CircularProgress';
 
 import LineChart from './containers/LineChart';
 import BarChart from './containers/BarChart';
@@ -25,7 +26,7 @@ function Dashboard() {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
+      {loading && <CircularProgress color="inherit" />}
       {error && <pre>{error?.message}</pre>}
       {!loading && !error &&
         <div className='dashboard'>
