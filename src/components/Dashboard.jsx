@@ -1,75 +1,63 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from "@apollo/client";
 
-import LineChart from './LineChart';
-import BarChart from './BarChart';
-import PieChart from './PieChart';
+import LineChart from './containers/LineChart';
+import BarChart from './containers/BarChart';
+import PieChart from './containers/PieChart';
+import DropDown from './common/DropDown';
 import { LAUNCHES_QUERY } from '../utils/GraphQlQueries';
 
 function Dashboard() {
   const { data, loading, error } = useQuery(LAUNCHES_QUERY);
   const [launchSite, setLaunchSite] = useState('');
 
-  if (loading) return "Loading...";
+  const siteNames = Array.from(new Set(
+    data?.launches?.map(({ launch_site }) => launch_site?.site_name)
+  ));
 
-  if (error) return <pre>{error.message}</pre>
-
-  const siteNames = new Set(
-    data.launches.map(({ launch_site }) => launch_site.site_name)
-  );
+  useEffect(() => {
+    setLaunchSite(siteNames[0]);
+  }, [data]);
 
   const handleChange = (event) => {
     setLaunchSite(event.target.value);
   };
 
   return (
-    <div className='dashboard'>
-      <h1>Data Viz</h1>
-      <select
-        name='site'
-        value={launchSite}
-        onChange={(e) => handleChange(e)}
-      >
-        <option disabled selected></option>
-        {[...siteNames].map(site => (
-          <option
-            key={site}
-            value={site}
-          >
-            {site}
-          </option>
-        ))}
-      </select>
-      {
-        launchSite === ''
-          ? <p>Plz</p>
-          : (
-            <>
-              <div className="row">
-                <div>
-                  <LineChart
-                    launchSite={launchSite}
-                    chartType={"line"}
-                  />
-                </div>
-                <div>
-                  <BarChart
-                    launchSite={launchSite}
-                    chartType={"bar"}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div>
-                  <PieChart
-                    launchSite={launchSite}
-                  />
-                </div>
-              </div>
-            </>
-          )
+    <>
+      {loading && <p>Loading...</p>}
+      {error && <pre>{error?.message}</pre>}
+      {!loading && !error &&
+        <div className='dashboard'>
+          <h1>Data Viz</h1>
+          <DropDown
+            name={'siteNames'}
+            value={launchSite}
+            handleChange={handleChange}
+            items={siteNames}
+          />
+          <div className="row">
+            <div>
+              <LineChart
+                launchSite={launchSite}
+              />
+            </div>
+            <div>
+              <BarChart
+                launchSite={launchSite}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div>
+              <PieChart
+                launchSite={launchSite}
+              />
+            </div>
+          </div>
+        </div>
       }
-    </div>
+    </>
   )
 }
 
