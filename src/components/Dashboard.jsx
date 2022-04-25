@@ -1,12 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from "@apollo/client";
 import CircularProgress from '@mui/material/CircularProgress';
+import styled from 'styled-components';
 
 import LineChart from './containers/LineChart';
 import BarChart from './containers/BarChart';
 import PieChart from './containers/PieChart';
 import DropDown from './common/DropDown';
 import { LAUNCHES_QUERY } from '../utils/GraphQlQueries';
+
+const Container = styled.div`
+  padding: 2.5rem;
+
+  h1,
+	h4 {
+		text-align: center;
+	}
+`;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 1rem;
+`;
 
 function Dashboard() {
   const { data, loading, error } = useQuery(LAUNCHES_QUERY);
@@ -29,34 +46,36 @@ function Dashboard() {
       {loading && <CircularProgress color="inherit" />}
       {error && <pre>{error?.message}</pre>}
       {!loading && !error &&
-        <div className='dashboard'>
-          <h1>Data Viz</h1>
-          <DropDown
-            name={'siteNames'}
-            value={launchSite}
-            handleChange={handleChange}
-            items={siteNames}
-          />
-          <div className="row">
-            <div>
-              <LineChart
-                launchSite={launchSite}
-              />
-            </div>
-            <div>
-              <BarChart
-                launchSite={launchSite}
-              />
-            </div>
+        <Container>
+          <div className='dashboard'>
+            <h1>Data Viz</h1>
+            <DropDown
+              name={'siteNames'}
+              value={launchSite}
+              handleChange={handleChange}
+              items={siteNames}
+            />
+            <Row>
+              <div>
+                <LineChart
+                  launchSite={launchSite}
+                />
+              </div>
+              <div>
+                <BarChart
+                  launchSite={launchSite}
+                />
+              </div>
+            </Row>
+            <Row>
+              <div>
+                <PieChart
+                  launchSite={launchSite}
+                />
+              </div>
+            </Row>
           </div>
-          <div className="row">
-            <div>
-              <PieChart
-                launchSite={launchSite}
-              />
-            </div>
-          </div>
-        </div>
+        </Container>
       }
     </>
   )
