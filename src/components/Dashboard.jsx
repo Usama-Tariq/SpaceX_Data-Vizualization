@@ -47,34 +47,32 @@ function Dashboard() {
       {error && <pre>{error?.message}</pre>}
       {!loading && !error &&
         <Container>
-          <div className='dashboard'>
-            <h1>Data Viz</h1>
-            <DropDown
-              name={'siteNames'}
-              value={launchSite}
-              handleChange={handleChange}
-              items={siteNames}
-            />
-            <Row>
-              <div>
-                <LineChart
-                  launchSite={launchSite}
-                />
-              </div>
-              <div>
-                <BarChart
-                  launchSite={launchSite}
-                />
-              </div>
-            </Row>
-            <Row>
-              <div>
-                <PieChart
-                  launchSite={launchSite}
-                />
-              </div>
-            </Row>
-          </div>
+          <h1>Data Viz</h1>
+          <DropDown
+            name={'siteNames'}
+            value={launchSite}
+            handleChange={handleChange}
+            items={siteNames}
+          />
+          <Row>
+            <div>
+              <LineChart
+                launchSite={launchSite}
+              />
+            </div>
+            <div>
+              <BarChart
+                launchSite={launchSite}
+              />
+            </div>
+          </Row>
+          <Row>
+            <div>
+              <PieChart
+                launchSite={launchSite}
+              />
+            </div>
+          </Row>
         </Container>
       }
     </>
