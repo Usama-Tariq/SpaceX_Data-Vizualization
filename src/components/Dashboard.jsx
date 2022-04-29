@@ -9,22 +9,6 @@ import PieChart from './containers/PieChart';
 import DropDown from './common/DropDown';
 import { LAUNCHES_QUERY } from '../utils/GraphQlQueries';
 
-const Container = styled.div`
-  padding: 2.5rem;
-
-  h1,
-	h4 {
-		text-align: center;
-	}
-`;
-
-const Row = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  margin: 1rem;
-`;
-
 function Dashboard() {
   const { data, loading, error } = useQuery(LAUNCHES_QUERY);
   const [launchSite, setLaunchSite] = useState('');
@@ -80,3 +64,19 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+const Container = styled.div`
+  padding: 2.5rem;
+
+  h1,
+	h4 {
+		text-align: center;
+	}
+`;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 1rem;
+`;

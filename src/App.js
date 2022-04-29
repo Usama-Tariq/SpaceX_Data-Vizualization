@@ -9,18 +9,18 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const AppStyled = styled.div`
-  padding: 2.5rem;
-`;
-
 function App() {
   return (
-    <AppStyled>
+    <StyledApp>
       <ApolloProvider client={client}>
         <Dashboard />
       </ApolloProvider>
-    </AppStyled>
+    </StyledApp>
   );
 }
 
 export default App;
+
+const StyledApp = styled.div`
+  padding: 2.5rem;
+`;
