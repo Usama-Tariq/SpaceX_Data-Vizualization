@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react'
 import { useQuery } from "@apollo/client";
 import _ from 'lodash';
 import CircularProgress from '@mui/material/CircularProgress';
+import { connect, useDispatch } from "react-redux";
 
 import ApexChart from '../common/ApexChart';
 import { ROCKET_TYPE_QUERY } from '../../utils/GraphQlQueries';
 import { getLaunchStatusesByRocketType } from '../../utils/common';
+import { rocketTypeAction } from '../../redux/actions';
 
-function PieChart({ launchSite }) {
+function PieChart({ launchSite, rocketTypeReducer }) {
   const { data, loading, error } = useQuery(ROCKET_TYPE_QUERY, {
     variables: { launchSite }
   });
+  const dispatch = useDispatch();
 
-  const filteredLaunches = data?.launches
-    .map(({ launch_success, rocket }) => ({
+  useEffect(() => {
+    if (data) {
+      dispatch(
+        rocketTypeAction(data)
+      );
+    }
+  }, [data]);
+
+  const filteredLaunches = rocketTypeReducer?.launches
+    ?.map(({ launch_success, rocket }) => ({
       launch_success,
       rocket_type: rocket?.rocket_type,
     }));
@@ -56,4 +67,10 @@ function PieChart({ launchSite }) {
   )
 }
 
-export default PieChart;
+const mapStateToProps = (state) => {
+  return {
+    rocketTypeReducer: state.rocketTypeReducer,
+  };
+};
+
+export default connect(mapStateToProps)(PieChart);

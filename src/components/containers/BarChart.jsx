@@ -1,18 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useQuery } from "@apollo/client";
 import _ from 'lodash';
 import CircularProgress from '@mui/material/CircularProgress';
+import { connect, useDispatch } from "react-redux";
 
 import ApexChart from '../common/ApexChart';
 import { LAUNCH_SITE_QUERY } from '../../utils/GraphQlQueries';
 import getLaunchStatusesPerYear from '../../utils/common';
+import { launchSiteAction } from '../../redux/actions';
 
-function BarChart({ launchSite }) {
+function BarChart({ launchSite, launchSiteReducer }) {
   const { data, loading, error } = useQuery(LAUNCH_SITE_QUERY, {
     variables: { launchSite }
   });
+  const dispatch = useDispatch();
 
-  const groupedByYear = _.chain(data?.launches)
+  useEffect(() => {
+    if (data) {
+      dispatch(
+        launchSiteAction(data)
+      );
+    }
+  }, [data]);
+
+  const groupedByYear = _.chain(launchSiteReducer?.launches)
     .groupBy("launch_year")
     .toPairs()
     .map((launch) => {
@@ -61,4 +72,10 @@ function BarChart({ launchSite }) {
   )
 }
 
-export default BarChart;
+const mapStateToProps = (state) => {
+  return {
+    launchSiteReducer: state.launchSiteReducer,
+  };
+};
+
+export default connect(mapStateToProps)(BarChart);
