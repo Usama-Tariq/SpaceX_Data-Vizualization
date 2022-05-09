@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Check it at: [![Netlify Status](https://api.netlify.com/api/v1/badges/3a46cf68-82b0-4268-ba7c-3ea15b1a2c6a/deploy-status)](https://unique-salamander-67825f.netlify.app/)
+Check it at: [![Netlify Status](https://api.netlify.com/api/v1/badges/3a46cf68-82b0-4268-ba7c-3ea15b1a2c6a/deploy-status)](https://spacex-data-vizualization.netlify.app/)
 
 ## Available Scripts
 
