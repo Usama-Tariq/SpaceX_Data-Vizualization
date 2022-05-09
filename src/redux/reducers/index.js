@@ -8,7 +8,7 @@ import {
 
 const initialState = [];
 
-const launchSiteNamesReducer = (state = initialState, action) => {
+const launchSiteNames = (state = initialState, action) => {
   switch (action.type) {
     case LAUNCH_SITE_NAMES:
       return action.payload;
@@ -17,7 +17,7 @@ const launchSiteNamesReducer = (state = initialState, action) => {
   }
 };
 
-const launchSiteReducer = (state = initialState, action) => {
+const launchSiteDetails = (state = initialState, action) => {
   switch (action.type) {
     case LAUNCH_SITE:
       return action.payload;
@@ -26,7 +26,7 @@ const launchSiteReducer = (state = initialState, action) => {
   }
 };
 
-const rocketTypeReducer = (state = initialState, action) => {
+const rocketTypeDetails = (state = initialState, action) => {
   switch (action.type) {
     case ROCKET_TYPE:
       return action.payload;
@@ -36,9 +36,9 @@ const rocketTypeReducer = (state = initialState, action) => {
 };
 
 const rootReducer = combineReducers({
-  launchSiteNames: launchSiteNamesReducer,
-  launchSiteDetails: launchSiteReducer,
-  rocketTypeDetails: rocketTypeReducer,
+  launchSiteNames,
+  launchSiteDetails,
+  rocketTypeDetails,
 })
 
 export default rootReducer;
