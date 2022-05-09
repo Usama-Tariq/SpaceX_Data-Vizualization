@@ -1,8 +1,8 @@
 import React from "react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import styled from 'styled-components';
 
 import Dashboard from "./components/Dashboard";
-import './App.scss';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
@@ -11,12 +11,16 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <div className="app">
+    <StyledApp>
       <ApolloProvider client={client}>
         <Dashboard />
       </ApolloProvider>
-    </div>
+    </StyledApp>
   );
 }
 
 export default App;
+
+const StyledApp = styled.div`
+  padding: 2.5rem;
+`;
