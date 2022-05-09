@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useQuery } from "@apollo/client";
 import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch, useSelector } from "react-redux";
+import styled from 'styled-components';
 
 import LineChart from './containers/LineChart';
 import BarChart from './containers/BarChart';
@@ -40,7 +41,7 @@ function Dashboard() {
       {loading && <CircularProgress color="inherit" />}
       {error && <pre>{error?.message}</pre>}
       {!loading && !error &&
-        <div className='dashboard'>
+        <Container>
           <h1>Data Viz</h1>
           <DropDown
             name={'siteNames'}
@@ -48,7 +49,7 @@ function Dashboard() {
             handleChange={handleChange}
             items={siteNames}
           />
-          <div className="row">
+          <Row>
             <div>
               <LineChart
                 launchSite={launchSite}
@@ -59,18 +60,34 @@ function Dashboard() {
                 launchSite={launchSite}
               />
             </div>
-          </div>
-          <div className="row">
+          </Row>
+          <Row>
             <div>
               <PieChart
                 launchSite={launchSite}
               />
             </div>
-          </div>
-        </div>
+          </Row>
+        </Container>
       }
     </>
   )
 }
 
 export default Dashboard;
+
+const Container = styled.div`
+  padding: 2.5rem;
+
+  h1,
+	h4 {
+		text-align: center;
+	}
+`;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 1rem;
+`;

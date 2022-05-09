@@ -1,10 +1,10 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import styled from 'styled-components';
 
 import Dashboard from "./components/Dashboard";
 import store from "./redux/store";
-import './App.scss';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
@@ -13,14 +13,18 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <div className="app">
+    <StyledApp>
       <Provider store={store}>
         <ApolloProvider client={client}>
           <Dashboard />
         </ApolloProvider>
       </Provider>
-    </div>
+    </StyledApp>
   );
 }
 
 export default App;
+
+const StyledApp = styled.div`
+  padding: 2.5rem;
+`;
