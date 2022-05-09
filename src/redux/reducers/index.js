@@ -36,9 +36,9 @@ const rocketTypeReducer = (state = initialState, action) => {
 };
 
 const rootReducer = combineReducers({
-  launchSiteNamesReducer,
-  launchSiteReducer,
-  rocketTypeReducer,
+  launchSiteNames: launchSiteNamesReducer,
+  launchSiteDetails: launchSiteReducer,
+  rocketTypeDetails: rocketTypeReducer,
 })
 
 export default rootReducer;

@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from "@apollo/client";
 import CircularProgress from '@mui/material/CircularProgress';
-import { connect, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import LineChart from './containers/LineChart';
 import BarChart from './containers/BarChart';
 import PieChart from './containers/PieChart';
 import DropDown from './common/DropDown';
 import { LAUNCHES_QUERY } from '../utils/GraphQlQueries';
-import { launchSiteNamesAction } from '../redux/actions';
+import { launchSiteNamesReceived } from '../redux/actions';
 
-function Dashboard({ launchSiteNamesReducer }) {
-  const { data, loading, error } = useQuery(LAUNCHES_QUERY);
+function Dashboard() {
+  const { data: launchesData, loading, error } = useQuery(LAUNCHES_QUERY);
   const dispatch = useDispatch();
+  const launchSiteNames = useSelector((state) => state.launchSiteNames);
   const [launchSite, setLaunchSite] = useState('');
 
   const siteNames = Array.from(new Set(
-    launchSiteNamesReducer?.launches?.map(({ launch_site }) => launch_site?.site_name)
+    launchSiteNames?.launches?.map(({ launch_site }) => launch_site?.site_name)
   ));
 
   useEffect(() => {
-    if (data) {
-      dispatch(
-        launchSiteNamesAction(data)
+    launchesData
+      && dispatch(
+        launchSiteNamesReceived(launchesData)
       );
-    }
-  }, [data]);
+  }, [launchesData]);
 
   useEffect(() => {
     setLaunchSite(siteNames[0]);
-  }, [launchSiteNamesReducer]);
+  }, [launchSiteNames]);
 
   const handleChange = (event) => {
     setLaunchSite(event.target.value);
@@ -73,10 +73,4 @@ function Dashboard({ launchSiteNamesReducer }) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    launchSiteNamesReducer: state.launchSiteNamesReducer,
-  };
-};
-
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;
