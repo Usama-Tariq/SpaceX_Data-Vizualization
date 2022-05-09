@@ -6,30 +6,39 @@ import {
   ROCKET_TYPE,
 } from "../constants";
 
-const initialState = [];
+const initialState = {};
 
-const launchSiteNames = (state = initialState, action) => {
-  switch (action.type) {
+const launchSiteNames = (state = initialState, { type, payload }) => {
+  switch (type) {
     case LAUNCH_SITE_NAMES:
-      return action.payload;
+      return {
+        ...state,
+        launches: payload.launches,
+      };
     default:
       return state;
   }
 };
 
-const launchSiteDetails = (state = initialState, action) => {
-  switch (action.type) {
+const launchSiteDetails = (state = initialState, { type, payload }) => {
+  switch (type) {
     case LAUNCH_SITE:
-      return action.payload;
+      return {
+        ...state,
+        launches: payload.launches,
+      };
     default:
       return state;
   }
 };
 
-const rocketTypeDetails = (state = initialState, action) => {
-  switch (action.type) {
+const rocketTypeDetails = (state = initialState, { type, payload }) => {
+  switch (type) {
     case ROCKET_TYPE:
-      return action.payload;
+      return {
+        ...state,
+        launches: payload.launches,
+      };
     default:
       return state;
   }
