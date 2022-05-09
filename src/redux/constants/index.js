@@ -1,0 +1,3 @@
+export const LAUNCH_SITE_NAMES = "LAUNCH_SITE_NAMES";
+export const LAUNCH_SITE = "LAUNCH_SITE";
+export const ROCKET_TYPE = "ROCKET_TYPE";

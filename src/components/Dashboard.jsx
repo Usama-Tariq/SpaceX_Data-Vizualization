@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from "@apollo/client";
 import CircularProgress from '@mui/material/CircularProgress';
+import { useDispatch, useSelector } from "react-redux";
 import styled from 'styled-components';
 
 import LineChart from './containers/LineChart';
@@ -8,18 +9,28 @@ import BarChart from './containers/BarChart';
 import PieChart from './containers/PieChart';
 import DropDown from './common/DropDown';
 import { LAUNCHES_QUERY } from '../utils/GraphQlQueries';
+import { launchSiteNamesReceived } from '../redux/actions';
 
 function Dashboard() {
-  const { data, loading, error } = useQuery(LAUNCHES_QUERY);
+  const { data: launchesData, loading, error } = useQuery(LAUNCHES_QUERY);
+  const dispatch = useDispatch();
+  const launchSiteNames = useSelector((state) => state.launchSiteNames);
   const [launchSite, setLaunchSite] = useState('');
 
   const siteNames = Array.from(new Set(
-    data?.launches?.map(({ launch_site }) => launch_site?.site_name)
+    launchSiteNames?.launches?.map(({ launch_site }) => launch_site?.site_name)
   ));
 
   useEffect(() => {
+    launchesData
+      && dispatch(
+        launchSiteNamesReceived(launchesData)
+      );
+  }, [launchesData]);
+
+  useEffect(() => {
     setLaunchSite(siteNames[0]);
-  }, [data]);
+  }, [launchSiteNames]);
 
   const handleChange = (event) => {
     setLaunchSite(event.target.value);

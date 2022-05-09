@@ -1,18 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useQuery } from "@apollo/client";
 import _ from 'lodash';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useSelector, useDispatch } from "react-redux";
 
 import ApexChart from '../common/ApexChart';
 import { LAUNCH_SITE_QUERY } from '../../utils/GraphQlQueries';
 import getLaunchStatusesPerYear from '../../utils/common';
+import { launchSiteReceived } from '../../redux/actions';
 
 function LineChart({ launchSite }) {
-  const { data, loading, error } = useQuery(LAUNCH_SITE_QUERY, {
+  const { data: launchesData, loading, error } = useQuery(LAUNCH_SITE_QUERY, {
     variables: { launchSite }
   });
+  const dispatch = useDispatch();
+  const launchSiteDetails = useSelector((state) => state.launchSiteDetails);
 
-  const groupedByYear = _.chain(data?.launches)
+  useEffect(() => {
+    launchesData
+      && dispatch(
+        launchSiteReceived(launchesData)
+      );
+  }, [launchesData]);
+
+  const groupedByYear = _.chain(launchSiteDetails?.launches)
     .groupBy("launch_year")
     .toPairs()
     .map((launch) => {
